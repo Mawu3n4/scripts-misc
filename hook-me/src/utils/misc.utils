@@ -1,0 +1,91 @@
+#!/bin/bash
+
+# Uglyshit below, please close your eyes
+# You've been warned
+# Hard-coded termcaps for pretty colors
+GREEN="[0;32m"
+RED="[0;31m"
+CLEAN="[0m"
+# You can open them now
+
+ROOT_UID=0
+
+# Oh wait, not quite yet
+function print_ok() {
+    LF=$2
+
+    [ $LF -eq 1 ] && echo "$GREEN[+]$CLEAN $1" || echo -n "$GREEN[+]$CLEAN $1"
+}
+
+# Still closed ?
+function print_ko() {
+    LF=$2
+
+    [ $LF -eq 1 ] && echo "$RED[+]$CLEAN $1" || echo -n "$RED[+]$CLEAN $1"
+}
+# You're safe now
+
+# Testing func
+function print_array() {
+    local array="$1[@]"
+
+    for element in "${!array}"; do
+        echo "     "$element | tr '-' ' '
+    done
+}
+
+# Check if $2 (seeking) is in $1 (array)
+function in_array() {
+    local array="$1[@]"
+    local seeking=$2
+    local in=1
+
+    for element in "${!array}"; do
+        if [[ $element == $seeking ]]; then
+            in=0
+            break
+        fi
+    done
+    echo $in
+    return $in
+}
+
+function check_root() {
+    if [ $UID != $ROOT_UID ] ; then
+	print_ko "You must be root to do that!" 1
+	exit 1
+    fi
+}
+
+function extract() {
+    FILE=$1
+    DEST=$2
+    EXTCMD="tar xzvf $FILE "
+
+    if [ "$DEST" != "" ]; then EXTCMD="tar xzvf $FILE -C $DEST"; fi
+
+    print_ok "Extracting '$FILE' ('$EXTCMD')... " 1
+    $EXTCMD
+}
+
+function mount_fct() {
+    MODE=$1
+
+    case "$MODE" in
+	mount)
+	    shift
+	    mount $DEVICE $MNT
+	    print_ok "$DEVICE: mounted on $MNT" 1
+	    ;;
+
+	unmount)
+	    shift
+	    umount $MNT
+	    print_ok "$MNT: unmounted" 1
+	    ;;
+
+	*)
+	    break
+	    ;;
+    esac
+}
