@@ -5,57 +5,15 @@ function print_help() {
     while test $# -gt 0; do
 	case "$1" in
 	    usage)
-		echo "Usage: ./kindle-jailbreak"
+		echo "Usage: hook-me"
 		echo "options:"
 		echo "      -h, --help              Display this help and exit"
-		echo "      -k [VERSION]            Specify Kindle version"
-		echo "      -d [DEVICE]             Specify device to mount"
-		echo "      -m [MNT]                Specify mount point"
-		echo "      --screensaver           Install screensaver hack"
-		echo "      --fonts                 Install custom fonts hack"
-		echo "      --uninstall		    Uninstall Jailbreak"
-		echo "	    --no		    Skip Jailbreak install"
 		exit 0
-		;;
-
-	    mount)
-		shift
-		echo "" >&2
-		echo "Mount your kindle and specify mount point" >&2
-		echo -n "Mount point:... " >&2
-		read MNT
-		export MNT=$MNT
-		;;
-
-	    device)
-		shift
-		echo "" >&2
-		echo "Plug your Kindle via USB and specify the according device" >&2
-		echo -n "Device:... " >&2
-		read DEVICE
-		export DEVICE=$DEVICE
-		;;
-
-	    version)
-		shift
-		echo "" >&2
-		echo "Check your Kindle Serial number to find your Kindle version" >&2
-		echo -n "Version:... " >&2
-		read KVERSION
-		export KVERSION="$KVERSION"
-		;;
-
-	    update)
-		shift
-		echo "    Unplug your Kindle from your computer" >&2
-		echo "    Click Menu > Settings > Menu > Update Your Kindle" >&2
-		echo "    On FW 2.x, the process WILL fail, don't worry" >&2
 		;;
 
 	    end)
 		shift
-		print_ok "Done !" 1
-		echo "    To uninstall the Jailbreak, run the script with --uninstall" >&2
+		print_ok "Now connected !" 1
 		;;
 
 	    *)
