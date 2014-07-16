@@ -27,16 +27,6 @@ check_root
 WLANS=$(ls -1 "/sys/class/net/" | grep "wlan")
 ETHS=$(ls -1 "/sys/class/net/" | grep "eth")
 
-function check_status() {
-    for DEV in $@ ; do
-	DEV_STATUS=$(cat "$NET_PATH/$DEV/operstate")
-	[ "$DEV_STATUS" == "up" ] && {
-	    print_ko "Already connected, now exiting.." 1
-	    exit 1
-	}
-    done
-}
-
 check_status $WLANS
 check_status $ETH
 
